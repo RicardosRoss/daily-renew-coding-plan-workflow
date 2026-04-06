@@ -1,0 +1,33 @@
+name: Daily GLM Coding Plan
+
+on:
+  schedule:
+    - cron: '0 7 * * *'      
+  workflow_dispatch:
+
+jobs:
+  glm-coding-plan:
+    runs-on: ubuntu-latest
+    
+    env:
+      ANTHROPIC_BASE_URL: ${{ secrets.ANTHROPIC_BASE_URL }}
+      ANTHROPIC_AUTH_TOKEN: ${{ secrets.ANTHROPIC_AUTH_TOKEN }}
+      API_TIMEOUT_MS: 600000     # 缩短到 10 分钟，适合极简触发
+
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Daily Coding Plan
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_AUTH_TOKEN }}
+          prompt: hi
+          claude_args: '--model glm-4.7'
