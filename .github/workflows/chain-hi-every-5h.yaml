@@ -38,6 +38,7 @@ jobs:
           uses: anthropics/claude-code-action@v1
           with:
             anthropic_api_key: ${{ secrets.ANTHROPIC_AUTH_TOKEN }}
+            allowed_bots: github-actions[bot]
             prompt: hi
             claude_args: '--model glm-4.7'
 
